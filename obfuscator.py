@@ -65,13 +65,6 @@ def browselink(link):
     :param link: a web link
     :return:
     """
-    #driver = webdriver.PhantomJS()
-    #driver.set_window_size(1120, 550)
-    #driver.get(link)
-    #driver.find_element_by_id('search_form_input_homepage').send_keys("realpython")
-    #driver.find_element_by_id("search_button_homepage").click()
-    #print(driver.current_url)
-    #driver.quit()
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--window-size=1420,1080')
@@ -89,10 +82,12 @@ def browselink(link):
 if not os.path.isdir(scriptdir):
     os.mkdir(scriptdir)
 
-dnld = downloadlist(sitelist)
-unziplist(dnld)
-csvfile = find('*.csv', scriptdir)
-full_list = csv.reader(open(csvfile[0]), delimiter=',')
-chosen_url = random.choice(list(full_list))
-print(chosen_url)
-browselink("http://" + chosen_url[1])
+while True:
+    dnld = downloadlist(sitelist)
+    unziplist(dnld)
+    csvfile = find('*.csv', scriptdir)
+    full_list = csv.reader(open(csvfile[0]), delimiter=',')
+    chosen_url = random.choice(list(full_list))
+    print(chosen_url)
+    browselink("http://" + chosen_url[1])
+    time.sleep(random.randint(5,60))
