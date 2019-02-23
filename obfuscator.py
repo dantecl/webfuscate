@@ -73,21 +73,38 @@ def browselink(link):
     driver = webdriver.Chrome(chrome_options=chrome_options)
     driver.get(link)
     links = driver.find_elements_by_partial_link_text('')
-    l = links[random.randint(0, len(links)-1)]
-    l.click()
-    print(driver.current_url)
-
+    #if no links, return clean
+    if (len(links)-1) < 1:
+        return 0
+    result = None
+    count = 0
+    while result == None:
+        try:
+            l = links[random.randint(0, len(links)-1)]
+            l.click()
+            print(driver.current_url)
+            result = l.text
+        except:
+            #except click something else
+            print("link failed")
+            #let's implement an error counter here
+            count = count + 1
+            if count > 10:
+                break
 
 # download our list to the script's folder
 if not os.path.isdir(scriptdir):
     os.mkdir(scriptdir)
 
+dnld = downloadlist(sitelist)
+unziplist(dnld)
+
 while True:
-    dnld = downloadlist(sitelist)
-    unziplist(dnld)
     csvfile = find('*.csv', scriptdir)
     full_list = csv.reader(open(csvfile[0]), delimiter=',')
     chosen_url = random.choice(list(full_list))
     print(chosen_url)
     browselink("http://" + chosen_url[1])
+    sleep_time = random.randint(5,60)
+    print("Sleeping for " + str(sleep_time) + " seconds...")
     time.sleep(random.randint(5,60))
