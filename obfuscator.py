@@ -71,7 +71,12 @@ def browselink(link):
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--disable-gpu')
     driver = webdriver.Chrome(chrome_options=chrome_options)
-    driver.get(link)
+    #prevent timeouts from crashing scirpt
+    try:
+        driver.get(link)
+    except:
+        print("Page not available")
+        continue
     links = driver.find_elements_by_partial_link_text('')
     #if no links, return clean
     if (len(links)-1) < 1:
@@ -105,6 +110,5 @@ while True:
     chosen_url = random.choice(list(full_list))
     print(chosen_url)
     browselink("http://" + chosen_url[1])
-    sleep_time = random.randint(5,15)
-    print("Sleeping for " + str(sleep_time) + " seconds...")
-    time.sleep(sleep_time)
+    print("Sleeping for " + str(random.randint(5,15)) + " seconds...")
+    time.sleep(random.randint(5,15))
