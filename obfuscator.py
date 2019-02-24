@@ -82,15 +82,15 @@ def browselink(link):
         try:
             l = links[random.randint(0, len(links)-1)]
             l.click()
-            print(driver.current_url)
-            result = l.text
+            result = 1
         except:
-            #except click something else
+            #except we're going to click something else
             print("link failed")
             #let's implement an error counter here
             count = count + 1
             if count > 10:
                 break
+            pass
 
 # download our list to the script's folder
 if not os.path.isdir(scriptdir):
@@ -105,6 +105,6 @@ while True:
     chosen_url = random.choice(list(full_list))
     print(chosen_url)
     browselink("http://" + chosen_url[1])
-    sleep_time = random.randint(5,60)
+    sleep_time = random.randint(5,15)
     print("Sleeping for " + str(sleep_time) + " seconds...")
-    time.sleep(random.randint(5,60))
+    time.sleep(sleep_time)
