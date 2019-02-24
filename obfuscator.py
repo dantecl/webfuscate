@@ -76,7 +76,7 @@ def browselink(link):
         driver.get(link)
     except:
         print("Page not available")
-        continue
+        pass
     links = driver.find_elements_by_partial_link_text('')
     #if no links, return clean
     if (len(links)-1) < 1:
